@@ -304,6 +304,149 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/27/DialogBox%E6%A8%A1%E6%9D%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="沈剑心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="朝花夕拾">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/02/27/DialogBox%E6%A8%A1%E6%9D%BF/" itemprop="url">DialogBox模板</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-27T17:02:03+08:00">
+                2020-02-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Win32编程中DialogBox的模板代码"><a href="#Win32编程中DialogBox的模板代码" class="headerlink" title="Win32编程中DialogBox的模板代码"></a>Win32编程中DialogBox的模板代码</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">BOOL CALLBACK <span class="title">DialogFunc</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">	HWND hwndDlg,</span></span></span><br><span class="line"><span class="function"><span class="params">	UINT UMsg,</span></span></span><br><span class="line"><span class="function"><span class="params">	WPARAM wParam,</span></span></span><br><span class="line"><span class="function"><span class="params">	LPARAM lParam</span></span></span><br><span class="line"><span class="function"><span class="params">	)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> WINAPI <span class="title">WinMain</span><span class="params">(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, <span class="keyword">int</span> nCmdShow)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	Hinsapp = hInstance;</span><br><span class="line">	DialogBox(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), <span class="literal">NULL</span>, DialogFunc);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//窗口回调</span></span><br><span class="line"><span class="function">BOOL CALLBACK <span class="title">DialogFunc</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">	HWND hwndDlg,</span></span></span><br><span class="line"><span class="function"><span class="params">	UINT UMsg,</span></span></span><br><span class="line"><span class="function"><span class="params">	WPARAM wParam,</span></span></span><br><span class="line"><span class="function"><span class="params">	LPARAM lParam</span></span></span><br><span class="line"><span class="function"><span class="params">	)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">switch</span> (UMsg)</span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">case</span> WM_NOTIFY:</span><br><span class="line">		&#123;</span><br><span class="line">			NMHDR * pNMHDR = (NMHDR*)lParam;</span><br><span class="line">			<span class="keyword">if</span> (wParam == IDC_LIST_PROCESS &amp;&amp; pNMHDR-&gt;code == NM_CLICK)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">//listview process 单击时</span></span><br><span class="line">				<span class="comment">//MessageBox(NULL, TEXT("点击了listview"), TEXT("INIT"), MB_OK);</span></span><br><span class="line">				<span class="comment">//EnumSingleProcessMoudle(GetDlgItem(hwndDlg, IDC_LIST_PROCESS), wParam, lParam);</span></span><br><span class="line">				</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> TRUE;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">case</span> WM_CLOSE:</span><br><span class="line">			EndDialog(hwndDlg, <span class="number">0</span>);</span><br><span class="line">		<span class="keyword">case</span>  WM_INITDIALOG:</span><br><span class="line">			InitProcessView(hwndDlg);</span><br><span class="line">			<span class="comment">//MessageBox(NULL, TEXT("WM_INITDIALOG"), TEXT("INIT"), MB_OK);</span></span><br><span class="line">			<span class="keyword">return</span> TRUE;</span><br><span class="line">		<span class="keyword">case</span>  WM_COMMAND:</span><br><span class="line">			<span class="keyword">switch</span> (LOWORD(wParam))</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">case</span> IDC_BUTTON_PEVIEW:</span><br><span class="line">						<span class="keyword">return</span> TRUE;</span><br><span class="line"></span><br><span class="line">				<span class="keyword">case</span> IDC_BUTTON_ABOUT:</span><br><span class="line">					<span class="comment">//MessageBox(NULL, TEXT("IDC_BUTTON_ABOUT"), TEXT("ABOUT"), MB_OK);</span></span><br><span class="line">					<span class="keyword">return</span> TRUE;</span><br><span class="line">				<span class="keyword">case</span> IDC_BUTTON_QUIT:</span><br><span class="line">					EndDialog(hwndDlg, <span class="number">0</span>);</span><br><span class="line">					<span class="keyword">return</span> TRUE;</span><br><span class="line">				<span class="keyword">default</span>:</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			<span class="keyword">return</span> FALSE;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/22/python%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -760,7 +903,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -771,7 +914,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -782,7 +925,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
