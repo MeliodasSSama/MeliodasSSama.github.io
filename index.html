@@ -304,6 +304,168 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/21/this%E6%8C%87%E9%92%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="沈剑心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="朝花夕拾">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/21/this%E6%8C%87%E9%92%88/" itemprop="url">this指针</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-21T09:35:13+08:00">
+                2020-03-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="C-this指针"><a href="#C-this指针" class="headerlink" title="C++this指针"></a>C++this指针</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// this指针测试.cpp : 定义控制台应用程序的入口点。</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdafx.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, _TCHAR* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">Base</span></span></span><br><span class="line"><span class="class">	&#123;</span></span><br><span class="line">		<span class="keyword">int</span> x;</span><br><span class="line">		<span class="keyword">int</span> y;</span><br><span class="line">		<span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			<span class="keyword">this</span>-&gt;x = x;</span><br><span class="line">			<span class="keyword">this</span>-&gt;y = y;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">this</span>-&gt;x + <span class="keyword">this</span>-&gt;y;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="function"><span class="keyword">int</span> <span class="title">getaddr</span><span class="params">()</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> (DWORD)((<span class="keyword">int</span> *)<span class="keyword">this</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	Base b;</span><br><span class="line">	<span class="keyword">int</span> c=b.add(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line">	<span class="keyword">int</span> d = b.getaddr();</span><br><span class="line">	<span class="comment">//printf("%d", c);</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%X"</span>, d);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将this 指针转成DWORD的值发现是个地址</p>
+<p>看反汇编</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">004F147E  push        2  </span><br><span class="line">004F1480  push        1  </span><br><span class="line">004F1482  lea         ecx,[b] </span><br><span class="line">004F1485  call        &#96;main&#39;::&#96;2&#39;::Base::add (04F13C0h)</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line">struct Base</span><br><span class="line">	&#123;</span><br><span class="line">		int x;</span><br><span class="line">		int y;</span><br><span class="line">		int add(int x, int y)</span><br><span class="line">		&#123;</span><br><span class="line">004F13CB  push        edi  </span><br><span class="line">004F13CC  push        ecx  </span><br><span class="line">004F13CD  lea         edi,[ebp-0CCh]  </span><br><span class="line">004F13D3  mov         ecx,33h  </span><br><span class="line">004F13D8  mov         eax,0CCCCCCCCh  </span><br><span class="line">004F13DD  rep stos    dword ptr es:[edi]  </span><br><span class="line">004F13DF  pop         ecx  </span><br><span class="line">004F13E0  mov         dword ptr [this],ecx  </span><br><span class="line">			this-&gt;x &#x3D; x;</span><br></pre></td></tr></table></figure>
+
+<p>分析</p>
+<p>004F1482  lea         ecx,[b]<br>004F1485  call        <code>main&#39;::</code>2’::Base::add (04F13C0h)</p>
+<p>1、在调用了Base::add (04F13C0h)函数之前，将变量b的地址放在ecx寄存器中</p>
+<p>2、进入add函数中 ，在给栈帧分配缓冲区之前，做了一个动作，即push ecx，因为下面要用到这个ecx寄存器计数，所以暂存。</p>
+<p>3、缓冲区填充之后，pop ecx将ecx中的值取出,然后这个VS在汇编上把ecx的值赋值到[this]上。直接看原始反汇编</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">004F13E0 89 4D F8             mov         dword ptr [ebp-8],ecx  </span><br><span class="line">			this-&gt;x &#x3D; x;</span><br><span class="line">004F13E3 8B 45 F8             mov         eax,dword ptr [ebp-8]  </span><br><span class="line">004F13E6 8B 4D 08             mov         ecx,dword ptr [ebp+8]  </span><br><span class="line">004F13E9 89 08                mov         dword ptr [eax],ecx  </span><br><span class="line">			this-&gt;y &#x3D; y;</span><br><span class="line">004F13EB 8B 45 F8             mov         eax,dword ptr [ebp-8]  </span><br><span class="line">004F13EE 8B 4D 0C             mov         ecx,dword ptr [ebp+0Ch]  </span><br><span class="line">004F13F1 89 48 04             mov         dword ptr [eax+4],ecx</span><br></pre></td></tr></table></figure>
+
+
+
+<p>先将ecx的值，也就是变量b的地址的地址,放到局部变量ebp-8里，再将ebp-8里的值放到eax中，实际上就是eax=ecx,再将传入的参数x赋值给ecx,再将ecx辅助给[eax],完成一一次传参</p>
+<p>4、分析getaddr函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">		int getaddr()</span><br><span class="line">		&#123;</span><br><span class="line">004F1420 55                   push        ebp  </span><br><span class="line">004F1421 8B EC                mov         ebp,esp  </span><br><span class="line">004F1423 81 EC CC 00 00 00    sub         esp,0CCh  </span><br><span class="line">004F1429 53                   push        ebx  </span><br><span class="line">004F142A 56                   push        esi  </span><br><span class="line">004F142B 57                   push        edi  </span><br><span class="line">004F142C 51                   push        ecx  </span><br><span class="line">004F142D 8D BD 34 FF FF FF    lea         edi,[ebp+FFFFFF34h]  </span><br><span class="line">004F1433 B9 33 00 00 00       mov         ecx,33h  </span><br><span class="line">004F1438 B8 CC CC CC CC       mov         eax,0CCCCCCCCh  </span><br><span class="line">004F143D F3 AB                rep stos    dword ptr es:[edi]  </span><br><span class="line">004F143F 59                   pop         ecx  </span><br><span class="line">004F1440 89 4D F8             mov         dword ptr [ebp-8],ecx  </span><br><span class="line">			return (DWORD)((int *)this);</span><br><span class="line">004F1443 8B 45 F8             mov         eax,dword ptr [ebp-8]  </span><br><span class="line">		&#125;</span><br><span class="line">004F1446 5F                   pop         edi  </span><br><span class="line">004F1447 5E                   pop         esi  </span><br><span class="line">004F1448 5B                   pop         ebx  </span><br><span class="line">004F1449 8B E5                mov         esp,ebp  </span><br><span class="line">004F144B 5D                   pop         ebp  </span><br><span class="line">004F144C C3                   ret</span><br></pre></td></tr></table></figure>
+
+<p>我返回this指针的DWORD的值,看看反汇编怎么显示</p>
+<p>直接就是将ecx赋值给[ebp-8]然后,返回[ebp-8] ，可见 ecx的就是这个this指针了，那么ecx是存着这个变量b的首地址,所以this的指针的值就是当前结构体变量的首地址。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/29/ubuntu18-04%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC%E8%AE%BE%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1070,7 +1232,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1081,7 +1243,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1092,7 +1254,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
