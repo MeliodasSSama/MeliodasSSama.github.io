@@ -304,6 +304,179 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/08/Oracle%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="沈剑心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="朝花夕拾">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/08/Oracle%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" itemprop="url">Oracle基本操作</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-08T09:32:51+08:00">
+                2020-05-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Oracle基本操作"><a href="#Oracle基本操作" class="headerlink" title="Oracle基本操作"></a>Oracle基本操作</h1><h2 id="配置访问"><a href="#配置访问" class="headerlink" title="配置访问"></a>配置访问</h2><ol>
+<li><p>直接连接</p>
+<p>只支持oracle10G以上。sqlplus 用户名/密码@ip地址[:端口]/service_name [as sysdba]。</p>
+</li>
+<li><p>通过配置文件连接</p>
+<p>编辑$ORACLE_HOME/NETWORK/ADMIN/tnsnames.ora文件如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ORCL_SIT &#x3D;</span><br><span class="line">  (DESCRIPTION &#x3D;</span><br><span class="line">    (ADDRESS &#x3D; (PROTOCOL &#x3D; TCP)(HOST &#x3D; toughhou)(PORT &#x3D; 1521))</span><br><span class="line">    (CONNECT_DATA &#x3D;</span><br><span class="line">      (SERVER &#x3D; DEDICATED)</span><br><span class="line">      (SERVICE_NAME &#x3D; ORCL)</span><br><span class="line">    )</span><br><span class="line">  )</span><br></pre></td></tr></table></figure>
+
+<p>使用 sqlplus scott/scott@ORCL_SIT 连接数据库</p>
+</li>
+</ol>
+<h2 id="常用查询语法"><a href="#常用查询语法" class="headerlink" title="常用查询语法"></a>常用查询语法</h2><p><strong>oracle没有limit，使用rownum来提取指定行</strong></p>
+<p>提取第一行：where rownum=1</p>
+<p>提取第二行： select rownum,id,name from student where rownum =2</p>
+<p>提取第前3行：select rownum,id,name from student where rownum &lt;3</p>
+<p>提取2行以后的：select * from(select rownum no ,id,name from student) where no&gt;2</p>
+<p><strong>查询用户和角色相关信息</strong></p>
+<p>查询当前用户：select user from dual; 或 select * from user_users; </p>
+<p>查询数据库用户的基本信息：select * from DBA_USERS;</p>
+<p>查询当前用户的角色： select * from user_role_privs;</p>
+<p>查询某个用户的角色：select * from dba_role_privs where grantee=’用户名’;</p>
+<p>查询所有用户的角色： select * from dba_role_privs;</p>
+<p><strong>查询表和表空间相关信息</strong></p>
+<p>查询当前用户的所有表和行数：select table_name,num_rows from user_tables;</p>
+<p>查看用户所在的表空间：select username,default_tablespace from dba_users order by username;</p>
+<p>查询表的大小：SELECT segment_name AS TABLENAME,round(BYTES/1024/1024,2)  FROM user_segments WHERE segment_name=’表名’（单位是M）</p>
+<h2 id="导出-导入数据库"><a href="#导出-导入数据库" class="headerlink" title="导出/导入数据库"></a>导出/导入数据库</h2><p>导出数据库的某些表：</p>
+<p>exp test/test123@db_name file=/tmp/user.dmp tables=user_table,log_table</p>
+<p>导出某个库：</p>
+<p>exp user/pwd@db_name full=y file=D:\database.dmp</p>
+<p>导出某一用户下所有的对象：</p>
+<p>exp user/pwd@db_name owner=(system,sys) file=/tmp/owner.dmp</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/08/tar%E5%88%86%E5%8D%B7%E5%8E%8B%E7%BC%A9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1388,7 +1561,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1399,7 +1572,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1410,7 +1583,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
