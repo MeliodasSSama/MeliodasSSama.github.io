@@ -1,6 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Centos7-Oracle11.2.0.3图形界面安装</title>
+    <url>/2020/05/18/Centos7-Oracle11-2-0-3%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E5%AE%89%E8%A3%85/</url>
+    <content><![CDATA[<h1 id="Centos-Oracle11安装"><a href="#Centos-Oracle11安装" class="headerlink" title="Centos/Oracle11安装"></a>Centos/Oracle11安装</h1><h2 id="环境依赖"><a href="#环境依赖" class="headerlink" title="环境依赖"></a>环境依赖</h2><p>centos7没有相关安装包可用，可下载pdksh的rpm包</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">wget  http://vault.centos.org/5.11/os/x86_64/CentOS/pdksh-5.2.14-37.el5_8.1.x86_64.rpm</span><br><span class="line">rpm -ivh pdksh-5.2.14-37.el5_8.1.x86_64.rpm</span><br></pre></td></tr></table></figure>
+
+<p>接着安装其他依赖</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum -y install binutils compat-libstdc++-33 elfutils-libelf elfutils-libelf-devel expat gcc gcc-c++ glibc glibc-common glibc-devel glibc-headers libaio libaio-devel libgcc libstdc++ libstdc++-devel make pdksh sysstat unixODBC unixODBC-devel</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="修改主机名和DNS"><a href="#修改主机名和DNS" class="headerlink" title="修改主机名和DNS"></a>修改主机名和DNS</h2><p>主机名修改为myhostname:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/hostname</span><br><span class="line"><span class="meta">#</span><span class="bash">添加如下内容</span></span><br><span class="line"><span class="meta">#</span><span class="bash">主机名</span></span><br><span class="line">myhostname</span><br></pre></td></tr></table></figure>
+
+<p>该DNS</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/hosts</span><br><span class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</span><br><span class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</span><br><span class="line"><span class="meta">#</span><span class="bash">添加以下内容  ip换成自己的</span></span><br><span class="line">192.168.38.144   myhostname</span><br></pre></td></tr></table></figure>
+
+<h2 id="优化系统内核参数"><a href="#优化系统内核参数" class="headerlink" title="优化系统内核参数"></a>优化系统内核参数</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/sysctl.conf</span><br><span class="line"><span class="meta">#</span><span class="bash">添加如下内容</span></span><br><span class="line">fs.aio-max-nr=1048576</span><br><span class="line">fs.file-max=6815744</span><br><span class="line">kernel.shmall=2097152</span><br><span class="line">kernel.shmmni=4096</span><br><span class="line">kernel.shmmax = 2147483648</span><br><span class="line">kernel.sem=250 32000 100 128</span><br><span class="line">net.ipv4.ip_local_port_range=9000 65500</span><br><span class="line">net.core.rmem_default=262144</span><br><span class="line">net.core.rmem_max=4194304</span><br><span class="line">net.core.wmem_default=262144</span><br><span class="line">net.core.wmem_max=1048586</span><br></pre></td></tr></table></figure>
+
+<p>其中：kernel.shmmax为内存的一半，比如内存为4G，则kernel.shmmax=210241024*1024=2147483648 使参数生效</p>
+<p>接着执行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
+
+<h2 id="对oracle帐号进行资源限制"><a href="#对oracle帐号进行资源限制" class="headerlink" title="对oracle帐号进行资源限制"></a>对oracle帐号进行资源限制</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/security/limits.conf</span><br><span class="line"><span class="meta">#</span><span class="bash">添加如下内容</span></span><br><span class="line">oracle              soft    nproc   2047</span><br><span class="line">oracle              hard    nproc   16384</span><br><span class="line">oracle              soft    nofile  1024</span><br><span class="line">oracle              hard    nofile  65536</span><br></pre></td></tr></table></figure>
+
+<h2 id="交换分区等设置"><a href="#交换分区等设置" class="headerlink" title="交换分区等设置"></a>交换分区等设置</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">umount /dev/shm</span><br><span class="line">fuser -km /dev/shm</span><br><span class="line">mount -t tmpfs -o size=3072m tmpfs /dev/shm</span><br></pre></td></tr></table></figure>
+
+<p>以上设置的是tmpfs有3G的空间，但是开机启动后就复原了</p>
+<p>接着：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/rc.local</span><br><span class="line"><span class="meta">#</span><span class="bash">添加以下内容</span></span><br><span class="line">mount -t tmpfs -o size=3072m tmpfs /dev/shm</span><br></pre></td></tr></table></figure>
+
+<p>接着执行：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chmod +x /etc/rc.d/rc.local</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="创建oracle用户和oracle用户组"><a href="#创建oracle用户和oracle用户组" class="headerlink" title="创建oracle用户和oracle用户组"></a>创建oracle用户和oracle用户组</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">groupadd oinstall </span><br><span class="line">groupadd dba</span><br><span class="line">useradd -g oinstall -G dba oracle  </span><br><span class="line">passwd oracle</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="创建Oracle软件目录"><a href="#创建Oracle软件目录" class="headerlink" title="创建Oracle软件目录"></a>创建Oracle软件目录</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mkdir -p /u01/app/oracle/product/11.2.0.4/db_1</span><br><span class="line">chown -R oracle:oinstall /u01</span><br><span class="line">chmod -R 775 /u01</span><br></pre></td></tr></table></figure>
+
+<p>修改环境变量</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su - oracle</span><br><span class="line">vim .bash_profile</span><br><span class="line">export ORACLE_BASE=/u01/app/oracle</span><br><span class="line">export ORACLE_HOME=$ORACLE_BASE/product/11.2.0.4/db_1</span><br><span class="line">export ORACLE_SID=prod</span><br><span class="line">export PATH=$ORACLE_HOME/bin:$PATH</span><br><span class="line">export NLS_LANG=AMERICAN_AMERICA.ZHS16GBK</span><br><span class="line">export NLS_DATE_FORMAT='YYYY-MM-DD HH24:MI:SS'</span><br><span class="line">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib</span><br><span class="line"></span><br><span class="line">source .bash_profile</span><br></pre></td></tr></table></figure>
+
+<h2 id="关闭防火墙"><a href="#关闭防火墙" class="headerlink" title="关闭防火墙"></a>关闭防火墙</h2><p>关闭selinux:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vi /etc/selinux/config</span><br><span class="line"></span><br><span class="line">SELINUX=disabled</span><br></pre></td></tr></table></figure>
+
+<p>查看防火墙</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl status firewalld.service</span><br></pre></td></tr></table></figure>
+
+<p>关闭防火墙</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl stop firewalld.service</span><br><span class="line">systemctl disable firewalld.service</span><br></pre></td></tr></table></figure>
+
+<p>端口开放</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">firewall-cmd --zone=public --add-port=1521/tcp --permanent</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+
+<h2 id="图形界面依赖"><a href="#图形界面依赖" class="headerlink" title="图形界面依赖"></a>图形界面依赖</h2><p>解压oracle  执行runINstaller文件</p>
+<p>如果遇到报错xdpyinfo</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum -y install xdpyinfo</span><br><span class="line">su -l root</span><br><span class="line">xhost +SI:localuser:oracle</span><br><span class="line"><span class="meta">#</span><span class="bash">切换到oracle再次执行runInstaller</span></span><br></pre></td></tr></table></figure>
+
+<p>然后安装就可以了。</p>
+<h2 id="数据库监听配置"><a href="#数据库监听配置" class="headerlink" title="数据库监听配置"></a>数据库监听配置</h2><p>监听</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">netca</span><br></pre></td></tr></table></figure>
+
+<p>创建数据库</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dbca</span><br></pre></td></tr></table></figure>
+
+<p>【实例及监听启动关闭操作】<br>实例的启动关闭:<br>sqlplus / as sysdba<br>startup 启动<br>shutdown immediate 关闭<br>select status from v$instance  查看实例状态</p>
+<p>监听启动关闭:<br>lsnrctl status  查看状态<br>lsnrctl start  启动监听<br>lsnrctl stop  关闭监听<br>alter system register;  注册监听</p>
+<h2 id="创建用户远程连接"><a href="#创建用户远程连接" class="headerlink" title="创建用户远程连接"></a>创建用户远程连接</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> bigdata <span class="keyword">identified</span> <span class="keyword">by</span> bigdata;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">connect</span>, <span class="keyword">resource</span> <span class="keyword">to</span> bigdata;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Oracle</category>
+      </categories>
+      <tags>
+        <tag>Oracle</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Oracle基本操作</title>
     <url>/2020/05/08/Oracle%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<h1 id="Oracle基本操作"><a href="#Oracle基本操作" class="headerlink" title="Oracle基本操作"></a>Oracle基本操作</h1><h2 id="配置访问"><a href="#配置访问" class="headerlink" title="配置访问"></a>配置访问</h2><ol>
@@ -29,12 +109,64 @@
 <p>查询当前用户的所有表和行数：select table_name,num_rows from user_tables;</p>
 <p>查看用户所在的表空间：select username,default_tablespace from dba_users order by username;</p>
 <p>查询表的大小：SELECT segment_name AS TABLENAME,round(BYTES/1024/1024,2)  FROM user_segments WHERE segment_name=’表名’（单位是M）</p>
-<h2 id="导出-导入数据库"><a href="#导出-导入数据库" class="headerlink" title="导出/导入数据库"></a>导出/导入数据库</h2><p>导出数据库的某些表：</p>
+<h2 id="导出-导入数据库"><a href="#导出-导入数据库" class="headerlink" title="导出/导入数据库"></a>导出/导入数据库</h2><p>首先查询库名</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select name from v$database;</span><br></pre></td></tr></table></figure>
+
+<p>导出数据库的某些表：</p>
 <p>exp test/test123@db_name file=/tmp/user.dmp tables=user_table,log_table</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">exp scott&#x2F;tiger@127.0.0.1&#x2F;HELOWIN file&#x3D;&#x2F;tmp&#x2F;scott.dmp tables&#x3D;emp</span><br></pre></td></tr></table></figure>
+
 <p>导出某个库：</p>
 <p>exp user/pwd@db_name full=y file=D:\database.dmp</p>
 <p>导出某一用户下所有的对象：</p>
 <p>exp user/pwd@db_name owner=(system,sys) file=/tmp/owner.dmp</p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><h3 id="sqlplus-的使用"><a href="#sqlplus-的使用" class="headerlink" title="sqlplus 的使用"></a>sqlplus 的使用</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sqlplus 用户名&#x2F;密码@ip&#x2F;服务名</span><br></pre></td></tr></table></figure>
+
+<p>例如</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sqlplus yht_usr&#x2F;B8fhr65V3p@10.88.159.5&#x2F;yhtndb</span><br></pre></td></tr></table></figure>
+
+<p>数据库和服务器都在同一台机子上，不需要填写服务名。</p>
+<p>例如</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sqlplus scott&#x2F;tiger</span><br></pre></td></tr></table></figure>
+
+
+
+<p>sqlplus 以 sysdba身份登录</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sqlplus &quot;&#x2F;as sysdba&quot;</span><br></pre></td></tr></table></figure>
+
+<p>切换成管理员</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">conn &#x2F; as sysdba</span><br></pre></td></tr></table></figure>
+
+<p>切换成其他用户</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">conn 用户名&#x2F;密码</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="数据库字典"><a href="#数据库字典" class="headerlink" title="数据库字典"></a>数据库字典</h3><p>数据库字典：<br>是数据库提供的表，用来查询数据库的信息。<br>dba_users 表就是用来查询 用户信息。要用</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">desc dba_users</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="查看当前用户"><a href="#查看当前用户" class="headerlink" title="查看当前用户"></a>查看当前用户</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">show user</span><br></pre></td></tr></table></figure>
+
+<h3 id="查询当前所有用户名"><a href="#查询当前所有用户名" class="headerlink" title="查询当前所有用户名"></a>查询当前所有用户名</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select username from dba_users</span><br></pre></td></tr></table></figure>
+
+<h4 id="查询所有用户以及用户对应的表空间"><a href="#查询所有用户以及用户对应的表空间" class="headerlink" title="查询所有用户以及用户对应的表空间"></a>查询所有用户以及用户对应的表空间</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select username,DEFAULT_TABLESPACE from dba_users;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="查看当前用户下所有的表名"><a href="#查看当前用户下所有的表名" class="headerlink" title="查看当前用户下所有的表名"></a>查看当前用户下所有的表名</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">set linesize 150;</span><br><span class="line">select OWNER,TABLE_NAME,TABLESPACE_NAME from all_tables where owner&#x3D;&#39;用户名大写&#39;;</span><br><span class="line">select OWNER,TABLE_NAME,TABLESPACE_NAME from all_tables where owner&#x3D;&#39;SCOTT&#39;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="查询用户下某个表"><a href="#查询用户下某个表" class="headerlink" title="查询用户下某个表"></a>查询用户下某个表</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from 用户.表名;</span><br><span class="line">select * from scott.dept;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="查询数据库总体大小"><a href="#查询数据库总体大小" class="headerlink" title="查询数据库总体大小"></a>查询数据库总体大小</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select a.tablespace_name, total, free, total-free as used from </span><br><span class="line">(select tablespace_name, sum(bytes)&#x2F;1024&#x2F;1024 as total from dba_data_files group by tablespace_name) a, </span><br><span class="line">(select tablespace_name, sum(bytes)&#x2F;1024&#x2F;1024 as free from dba_free_space group by tablespace_name) b</span><br><span class="line">where a.tablespace_name &#x3D; b.tablespace_name;</span><br></pre></td></tr></table></figure>
+
+<p>单位MB</p>
 ]]></content>
       <categories>
         <category>数据库</category>
