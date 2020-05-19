@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>pictest</title>
+    <url>/2020/05/19/pictest/</url>
+    <content><![CDATA[<h1 id="图片测试"><a href="#图片测试" class="headerlink" title="图片测试"></a>图片测试</h1><p><img src="/.com//D:%5Cblog%5Csource_posts%5Cpictest%5Cjt.PNG" alt></p>
+]]></content>
+      <tags>
+        <tag>测试</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Centos7-Oracle11.2.0.3图形界面安装</title>
     <url>/2020/05/18/Centos7-Oracle11-2-0-3%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E5%AE%89%E8%A3%85/</url>
     <content><![CDATA[<h1 id="Centos-Oracle11安装"><a href="#Centos-Oracle11安装" class="headerlink" title="Centos/Oracle11安装"></a>Centos/Oracle11安装</h1><h2 id="环境依赖"><a href="#环境依赖" class="headerlink" title="环境依赖"></a>环境依赖</h2><p>centos7没有相关安装包可用，可下载pdksh的rpm包</p>
