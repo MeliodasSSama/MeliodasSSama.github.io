@@ -1,11 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Windows下libcurl库编译</title>
+    <url>/2020/05/19/Windows%E4%B8%8Blibcurl%E5%BA%93%E7%BC%96%E8%AF%91/</url>
+    <content><![CDATA[<h1 id="Windows下编译libcurl"><a href="#Windows下编译libcurl" class="headerlink" title="Windows下编译libcurl"></a>Windows下编译libcurl</h1><h2 id="下载libcurl源码"><a href="#下载libcurl源码" class="headerlink" title="下载libcurl源码"></a>下载libcurl源码</h2><p><a href="https://curl.haxx.se/download.html" target="_blank" rel="noopener">https://curl.haxx.se/download.html</a></p>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><ol>
+<li><p>安装vs</p>
+</li>
+<li><p>在目录curl-7.61.0\winbuild中打开cmd</p>
+</li>
+<li><p>找到vcvars32.bat的位置（它在VS的安装目录中），在刚刚打开的cmd中运行此bat（目的是设置临时的环境变量，使当前的cmd可以运行nmake）</p>
+</li>
+<li><p>在winbuild目录下执行 5</p>
+</li>
+<li><p>debug MD</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmake /f Makefile.vc mode=static VC=12 DEBUG=yes MACHINE=x86 RTLIBCFG=static</span><br></pre></td></tr></table></figure>
+
+<p>编译成release版本MD</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmake /f Makefile.vc mode=static VC=12 DEBUG=no MACHINE=x86 RTLIBCFG=static</span><br></pre></td></tr></table></figure>
+
+<p>调试版本的把 RTLIBCFG=static  去掉</p>
+</li>
+<li><p>编译后生成三个文件夹</p>
+<img src="/2020/05/19/Windows%E4%B8%8Blibcurl%E5%BA%93%E7%BC%96%E8%AF%91/1.PNG" class="" title="[三个文件夹]">
+
+<img src="/2020/05/19/Windows%E4%B8%8Blibcurl%E5%BA%93%E7%BC%96%E8%AF%91/2.PNG" class="" title="[目录项]">
+
+
+
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>C</category>
+      </categories>
+      <tags>
+        <tag>C</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>pictest</title>
     <url>/2020/05/19/pictest/</url>
     <content><![CDATA[<h1 id="图片测试"><a href="#图片测试" class="headerlink" title="图片测试"></a>图片测试</h1><img src="/2020/05/19/pictest/ms.png" class="" title="[title]">
-
-<p><img src="pictest%5Cms.png" alt="ceshi"></p>
 ]]></content>
       <tags>
         <tag>测试</tag>
