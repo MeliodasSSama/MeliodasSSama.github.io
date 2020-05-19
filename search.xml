@@ -3,7 +3,8 @@
   <entry>
     <title>pictest</title>
     <url>/2020/05/19/pictest/</url>
-    <content><![CDATA[<h1 id="图片测试"><a href="#图片测试" class="headerlink" title="图片测试"></a>图片测试</h1><p><img src="pictest%5Cjt.png" alt="图片描述"></p>
+    <content><![CDATA[<h1 id="图片测试"><a href="#图片测试" class="headerlink" title="图片测试"></a>图片测试</h1><img src="/2020/05/19/pictest/jt.png" class="" title="[title]">
+
 ]]></content>
       <tags>
         <tag>测试</tag>
