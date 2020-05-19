@@ -424,6 +424,24 @@
 
 </li>
 </ol>
+<h2 id="VS项目中使用libcurl"><a href="#VS项目中使用libcurl" class="headerlink" title="VS项目中使用libcurl"></a>VS项目中使用libcurl</h2><h4 id="以VS2013为例"><a href="#以VS2013为例" class="headerlink" title="以VS2013为例"></a>以VS2013为例</h4><p>去配置include、lib,以便让编译器找到对应的头文件和链接库</p>
+<img src="/2020/05/19/Windows%E4%B8%8Blibcurl%E5%BA%93%E7%BC%96%E8%AF%91/3.PNG" class="" title="[头文件和llib文件配置]">
+
+
+
+<p>在C++  /  预处理器 / 预处理器定义 中 添加 CURL_STATICLIB</p>
+<img src="/2020/05/19/Windows%E4%B8%8Blibcurl%E5%BA%93%E7%BC%96%E8%AF%91/4.PNG" class="" title="[添加 CURL_STATICLIB]">
+
+
+
+<p>链接器-输入-附加依赖项里添加以下的库</p>
+<p>libcurl_a_debug.lib<br>Ws2_32.lib<br>Wldap32.lib<br>winmm.lib<br>Crypt32.lib<br>Normaliz.lib</p>
+<img src="/2020/05/19/Windows%E4%B8%8Blibcurl%E5%BA%93%E7%BC%96%E8%AF%91/5.PNG" class="" title="[添加 依赖库]">
+
+<p>最后不要忘了把程序改成MTD或者MT(RTLIBCFG=static)</p>
+<p>附上测试代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// curl测试.cpp : 定义控制台应用程序的入口点。</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdafx.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"curl.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib, <span class="meta-string">"./curl/libcurl.lib"</span>)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">	CURL* curl = <span class="number">0</span>;</span><br><span class="line">	CURLcode res;</span><br><span class="line">	curl = curl_easy_init();</span><br><span class="line">	<span class="keyword">if</span> (curl != <span class="number">0</span>) &#123;</span><br><span class="line">		curl_easy_setopt(curl, CURLOPT_URL, <span class="string">"https://www.baidu.com"</span>);</span><br><span class="line">		<span class="comment">/* example.com is redirected, so we tell libcurl to follow redirection */</span></span><br><span class="line">		curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, <span class="number">1L</span>);</span><br><span class="line">		<span class="comment">/* Perform the request, res will get the return code */</span></span><br><span class="line">		res = curl_easy_perform(curl);</span><br><span class="line">		<span class="comment">/* Check for errors */</span></span><br><span class="line">		<span class="keyword">if</span> (res != CURLE_OK) &#123;</span><br><span class="line">			<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"curl_easy_perform() failed: %s\n"</span>, curl_easy_strerror(res));</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">/* always cleanup */</span></span><br><span class="line">		curl_easy_cleanup(curl);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
           
         
